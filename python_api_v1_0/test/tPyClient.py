@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 15 20:28:49 2018
+
+@author: akoh
+"""
+
+import unittest
+import unify_api_v1 as unifyapi
+
+from unify_api_v1.auth import UsernamePasswordAuth
+
+class TestPyClient(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        username = 'admin'
+        password = 'dt'
+        ipaddr = '10.20.0.189'  
+        auth = UsernamePasswordAuth(username, password)
+        cls.unify = unifyapi.Client(auth, host=ipaddr)
+
+    def test_dataset(self):
+        dataset_name = 'USA-spending.csv'
+        dataset = self.unify.datasets.by_name(dataset_name)
+        
+        expected = dataset_name
+        actual = dataset.name
+        self.assertEqual(expected, actual)
+        
+        dataset_id = dataset.api_path
+        dataset = self.unify.datasets.by_relative_id(dataset_id)
+        
+        self.assertEqual(expected, actual)
+                
+    def test_project(self):
+        project_id = 'projects/1'
+        project = self.unify.projects.by_relative_id(project_id)
+        
+        expected = 'MasteringTutorial'
+        actual = project.name
+        self.assertEqual(expected, actual)
+        
+        expected = 'Mastering Project'
+        actual = project.description
+        self.assertEqual(expected, actual)
+    
+    def test_project_dataset(self):
+        project_id = 'projects/2'
+        project = self.unify.projects.by_relative_id(project_id)
+        
+        expected = 'SMTutorial'
+        actual = project.name
+        self.assertEqual(expected, actual)
+        
+        expected = 'Schema Mapping Recommendations Project'
+        actual = project.description
+        self.assertEqual(expected, actual)
+  
+        #input_datasets = project.input_datasets()     
+        unified_dataset = project.unified_dataset()
+        
+        expected = 'SMTutorial_unified_dataset'
+        actual = unified_dataset.name
+        self.assertEqual(expected, actual)
+    
+        op = unified_dataset.refresh()
+        self.assertTrue(op.succeeded())
+        self.assertEqual(op.state, 'SUCCEEDED')
+        
+        
+    @classmethod
+    def tearDownClass(cls):
+        del(cls.unify)
+        
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
