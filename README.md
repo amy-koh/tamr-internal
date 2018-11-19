@@ -1,2 +1,2 @@
-# tamr-internal
-A repository for Tamr internal projects
+# Tamr Internal Projects
+A repository for Tamr internal projects.
