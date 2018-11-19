@@ -14,6 +14,7 @@ from unify_api_v1.auth import UsernamePasswordAuth
 class TestPyClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        """Create client object. """
         username = 'admin'
         password = 'dt'
         ipaddr = '10.20.0.189'  
@@ -21,6 +22,7 @@ class TestPyClient(unittest.TestCase):
         cls.unify = unifyapi.Client(auth, host=ipaddr)
 
     def test_dataset(self):
+        """Test API for retrieving datasets."""
         dataset_name = 'USA-spending.csv'
         dataset = self.unify.datasets.by_name(dataset_name)
         
@@ -34,6 +36,8 @@ class TestPyClient(unittest.TestCase):
         self.assertEqual(expected, actual)
                 
     def test_project(self):
+        """Test API for retrieving projects and metadata."""
+        dataset_name = 'USA-spending.csv'
         project_id = 'projects/1'
         project = self.unify.projects.by_relative_id(project_id)
         
@@ -46,6 +50,7 @@ class TestPyClient(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_project_dataset(self):
+        """Test API for retrieving input and unified datasets."""
         project_id = 'projects/2'
         project = self.unify.projects.by_relative_id(project_id)
         
@@ -71,6 +76,7 @@ class TestPyClient(unittest.TestCase):
         
     @classmethod
     def tearDownClass(cls):
+        """Delete client object."""
         del(cls.unify)
         
 if __name__ == '__main__':
