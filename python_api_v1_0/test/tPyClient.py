@@ -62,7 +62,7 @@ class TestPyClient(unittest.TestCase):
         actual = project.description
         self.assertEqual(expected, actual)
   
-  		#TODO: Comment out due to bug in API
+  	#TODO: Comment out due to bug in API
         #input_datasets = project.input_datasets()     
         unified_dataset = project.unified_dataset()
         
