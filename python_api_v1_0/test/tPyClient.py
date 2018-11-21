@@ -75,6 +75,7 @@ class TestPyClient(unittest.TestCase):
         self.assertEqual(op.state, 'SUCCEEDED')
         
     def test_categorisations(self):
+        """Test API for categorisation workflow."""
         project_id = 'projects/3'
         project = self.unify.projects.by_relative_id(project_id)
         
