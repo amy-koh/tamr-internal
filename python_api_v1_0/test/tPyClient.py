@@ -74,7 +74,26 @@ class TestPyClient(unittest.TestCase):
         self.assertTrue(op.succeeded())
         self.assertEqual(op.state, 'SUCCEEDED')
         
+    def test_categorisations(self):
+        project_id = 'projects/3'
+        project = self.unify.projects.by_relative_id(project_id)
         
+        expected = 'CatTutorial'
+        actual = project.name
+        self.assertEqual(expected, actual)
+        
+        expected = 'Categorization Project'
+        actual = project.description
+        self.assertEqual(expected, actual)
+        
+        catModel = project.categorizations().model()
+        op = catModel.refresh()
+        self.assertTrue(op.succeeded())
+        
+        catDatasets = project.categorizations()
+        op = catDatasets.refresh()
+        self.assertTrue(op.succeeded())
+         
     @classmethod
     def tearDownClass(cls):
         """Delete client object."""
