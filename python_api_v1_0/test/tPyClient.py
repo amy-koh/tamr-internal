@@ -91,8 +91,7 @@ class TestPyClient(unittest.TestCase):
         op = catModel.refresh()
         self.assertTrue(op.succeeded())
         
-        catDatasets = project.categorizations()
-        op = catDatasets.refresh()
+        op = project.categorizations().refresh()
         self.assertTrue(op.succeeded())
          
     @classmethod
